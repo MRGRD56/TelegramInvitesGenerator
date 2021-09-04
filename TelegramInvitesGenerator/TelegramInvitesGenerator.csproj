@@ -8,6 +8,7 @@
       <PackageReference Include="EPPlus" Version="5.7.4" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.9" />
       <PackageReference Include="System.Linq.Async" Version="5.0.0" />
+      <PackageReference Include="System.Reactive" Version="5.0.0" />
       <PackageReference Include="Telegram.Bot" Version="16.0.2" />
     </ItemGroup>
 

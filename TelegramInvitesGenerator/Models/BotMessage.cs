@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -9,7 +10,7 @@ namespace TelegramInvitesGenerator.Models
     {
         public static BotMessage Parse(Message message, IConfiguration configuration)
         {
-            if (message is null)
+            if (message is null || message.Date < DateTime.UtcNow.AddMinutes(-2))
             {
                 return new BotMessage(null, null, false);
             }

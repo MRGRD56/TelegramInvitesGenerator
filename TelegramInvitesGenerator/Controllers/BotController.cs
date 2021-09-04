@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Telegram.Bot;
@@ -50,7 +51,7 @@ namespace TelegramInvitesGenerator.Controllers
                 response = IResponse.UnknownCommandResponse;
             }
 
-            await response.SendAsync(_botClient, message.Chat.Id);
+            await Task.WhenAny(response.SendAsync(_botClient, message.Chat.Id), Task.Delay(TimeSpan.FromSeconds(50)));
             return Ok();
         }
     }

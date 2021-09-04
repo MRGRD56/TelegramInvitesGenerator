@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using TelegramInvitesGenerator.Extensions;
 
 namespace TelegramInvitesGenerator.Models.Commands.Responses
 {
@@ -16,7 +17,7 @@ namespace TelegramInvitesGenerator.Models.Commands.Responses
         
         public Task SendAsync(ITelegramBotClient botClient, ChatId chatId, CancellationToken cancellationToken = default)
         {
-            return botClient.DeleteMessageAsync(chatId, _message.MessageId, cancellationToken);
+            return TelegramApi.ExecuteAsync(botClient.DeleteMessageAsync(chatId, _message.MessageId, cancellationToken));
         }
     }
 }

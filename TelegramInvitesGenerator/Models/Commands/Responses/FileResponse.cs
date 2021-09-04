@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InputFiles;
+using TelegramInvitesGenerator.Extensions;
 
 namespace TelegramInvitesGenerator.Models.Commands.Responses
 {
@@ -33,7 +34,7 @@ namespace TelegramInvitesGenerator.Models.Commands.Responses
         public async Task SendAsync(ITelegramBotClient botClient, ChatId chatId, CancellationToken cancellationToken = default)
         {
             var file = new InputOnlineFile(FileStream, _fileName);
-            await botClient.SendDocumentAsync(chatId, file, caption: Text, cancellationToken: cancellationToken);
+            await TelegramApi.ExecuteAsync(botClient.SendDocumentAsync(chatId, file, caption: Text, cancellationToken: cancellationToken));
         }
     }
 }

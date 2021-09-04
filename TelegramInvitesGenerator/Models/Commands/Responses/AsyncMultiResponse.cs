@@ -1,26 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using TelegramInvitesGenerator.Extensions;
 
 namespace TelegramInvitesGenerator.Models.Commands.Responses
 {
     public class AsyncMultiResponse : IResponse
     {
-        private readonly IAsyncEnumerable<IResponse> _responses;
+        private readonly IObservable<IResponse> _responses;
 
-        public AsyncMultiResponse(IAsyncEnumerable<IResponse> responses)
+        public AsyncMultiResponse(IObservable<IResponse> responses)
         {
             _responses = responses;
         }
         
         public async Task SendAsync(ITelegramBotClient botClient, ChatId chatId, CancellationToken cancellationToken = default)
         {
-            await foreach (var answer in _responses.WithCancellation(cancellationToken))
+            await _responses.ForEachAsync(async response =>
             {
-                await answer.SendAsync(botClient, chatId, cancellationToken);
-            }
+                await response.SendAsync(botClient, chatId, cancellationToken);
+            }, cancellationToken);
         }
     }
 }

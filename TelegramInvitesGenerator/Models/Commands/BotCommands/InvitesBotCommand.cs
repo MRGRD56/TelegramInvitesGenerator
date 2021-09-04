@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Telegram.Bot.Types.Enums;
@@ -23,16 +25,22 @@ namespace TelegramInvitesGenerator.Models.Commands.BotCommands
 
         public IRequest Request => new ConditionRequest(q => q.StartsWith("/generate_invites"));
 
-        private async IAsyncEnumerable<IResponse> GetInvitesAnswers(BotMessage message, List<string> persons)
-        {
-            yield return new TextResponse($"Генерация пригласительных ссылок (количество: {persons.Count})");
-            
-            var inviteLinks = await _channelInvitesGenerator
-                .GenerateAsync(message.Message.Chat.Id, persons)
-                .ToListAsync();
-            var document = await _documentGenerator.GenerateFromObjectsAsync(inviteLinks);
-            yield return new FileResponse(document, "invites.xlsx", $"Сгенерировано ссылок: {inviteLinks.Count}");
-        }
+        private IObservable<IResponse> GetInvitesAnswers(BotMessage message, List<string> persons) =>
+            Observable.Create<IResponse>(async subscriber =>
+            {
+                subscriber.OnNext(new TextResponse($"Генерация пригласительных ссылок (количество: {persons.Count})"));
+
+                Action<string> alert = alertMessage =>
+                {
+                    subscriber.OnNext(new TextResponse(alertMessage));
+                };
+                
+                var inviteLinks = await _channelInvitesGenerator
+                    .GenerateAsync(message.Message.Chat.Id, persons, alert)
+                    .ToListAsync();
+                var document = await _documentGenerator.GenerateFromObjectsAsync(inviteLinks);
+                subscriber.OnNext(new FileResponse(document, "invites.xlsx", $"Сгенерировано ссылок: {inviteLinks.Count}"));
+            });
 
         public async Task<IResponse> GetResponseAsync(BotMessage message)
         {
