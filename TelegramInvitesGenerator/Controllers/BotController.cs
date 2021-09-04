@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +32,7 @@ namespace TelegramInvitesGenerator.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Update update)
+        public async Task<IActionResult> Post([FromBody] Update update, CancellationToken cancellationToken)
         {
             var message = update?.Message ?? update?.ChannelPost;
             var botMessage = BotMessage.Parse(message, _configuration);
@@ -51,7 +52,8 @@ namespace TelegramInvitesGenerator.Controllers
                 response = IResponse.UnknownCommandResponse;
             }
 
-            await Task.WhenAny(response.SendAsync(_botClient, message.Chat.Id), Task.Delay(TimeSpan.FromSeconds(50)));
+            var responseTask = response.SendAsync(_botClient, message.Chat.Id, cancellationToken);
+            await Task.WhenAny(responseTask, Task.Delay(TimeSpan.FromSeconds(50), cancellationToken));
             return Ok();
         }
     }
