@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Telegram.Bot.Types;
-using TelegramInvitesGenerator.Models.Commands.Answers;
-using TelegramInvitesGenerator.Models.Commands.Questions;
+using TelegramInvitesGenerator.Models.Commands.Responses;
+using TelegramInvitesGenerator.Models.Commands.Requests;
 
 namespace TelegramInvitesGenerator.Models.Commands
 {

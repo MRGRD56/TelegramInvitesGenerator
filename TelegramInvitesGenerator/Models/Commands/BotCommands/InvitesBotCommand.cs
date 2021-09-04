@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Telegram.Bot.Types.Enums;
-using TelegramInvitesGenerator.Models.Commands.Answers;
-using TelegramInvitesGenerator.Models.Commands.Questions;
+using TelegramInvitesGenerator.Models.Commands.Responses;
+using TelegramInvitesGenerator.Models.Commands.Requests;
 using TelegramInvitesGenerator.Services.Abstractions;
 
 namespace TelegramInvitesGenerator.Models.Commands.BotCommands
@@ -23,7 +23,7 @@ namespace TelegramInvitesGenerator.Models.Commands.BotCommands
 
         public IRequest Request => new ConditionRequest(q => q.StartsWith("/generate_invites"));
 
-        private async IAsyncEnumerable<IResponse> GetInvitesAnswers(BotMessage message, List<string> persons)
+        private async IAsyncEnumerable<IResponse> GetInvitesResponseMessages(BotMessage message, List<string> persons)
         {
             yield return new TextResponse($"Генерация пригласительных ссылок (количество: {persons.Count})");
             
@@ -62,7 +62,7 @@ namespace TelegramInvitesGenerator.Models.Commands.BotCommands
                                       "/help для дополнительной информации.");
             }
 
-            return new AsyncMultiResponse(GetInvitesAnswers(message, persons));
+            return new AsyncMultiResponse(GetInvitesResponseMessages(message, persons));
         }
     }
 }

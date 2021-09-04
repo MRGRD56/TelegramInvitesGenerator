@@ -1,4 +1,4 @@
-﻿namespace TelegramInvitesGenerator.Models.Commands.Questions
+﻿namespace TelegramInvitesGenerator.Models.Commands.Requests
 {
     public interface IRequest
     {

@@ -6,7 +6,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using TelegramInvitesGenerator.Models;
 using TelegramInvitesGenerator.Models.Commands;
-using TelegramInvitesGenerator.Models.Commands.Answers;
+using TelegramInvitesGenerator.Models.Commands.Responses;
 using TelegramInvitesGenerator.Services;
 using TelegramInvitesGenerator.Services.Abstractions;
 
