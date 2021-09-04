@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -7,7 +8,7 @@ using Telegram.Bot.Types.InputFiles;
 
 namespace TelegramInvitesGenerator.Models.Commands.Answers
 {
-    public class FileAnswer : ITextAnswer
+    public class FileResponse : ITextResponse
     {
         public string Text { get; }
         
@@ -15,24 +16,24 @@ namespace TelegramInvitesGenerator.Models.Commands.Answers
         
         private readonly string _fileName;
 
-        public FileAnswer(byte[] fileBytes, string fileName, string text = null)
+        public FileResponse(byte[] fileBytes, string fileName, string text = null)
         {
             FileStream = new MemoryStream(fileBytes);
             _fileName = fileName;
             Text = text;
         }
 
-        public FileAnswer(Stream fileStream, string fileName, string text = null)
+        public FileResponse(Stream fileStream, string fileName, string text = null)
         {
             FileStream = fileStream;
             _fileName = fileName;
             Text = text;
         }
         
-        public async Task SendAsync(ITelegramBotClient botClient, ChatId chatId)
+        public async Task SendAsync(ITelegramBotClient botClient, ChatId chatId, CancellationToken cancellationToken = default)
         {
             var file = new InputOnlineFile(FileStream, _fileName);
-            await botClient.SendDocumentAsync(chatId, file, caption: Text);
+            await botClient.SendDocumentAsync(chatId, file, caption: Text, cancellationToken: cancellationToken);
         }
     }
 }

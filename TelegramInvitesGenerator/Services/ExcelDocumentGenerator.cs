@@ -1,14 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using OfficeOpenXml;
+using TelegramInvitesGenerator.Services.Abstractions;
 
-namespace TelegramInvitesGenerator.Models.Documents
+namespace TelegramInvitesGenerator.Services
 {
-    public static class ExcelDocumentGenerator
+    public class ExcelDocumentGenerator : IDocumentGenerator
     {
-        public static async Task<byte[]> GenerateFromStringsAsync(string[][] table)
+        public async Task<byte[]> GenerateFromStringsAsync(string[][] table)
         {
             var package = new ExcelPackage();
             var worksheet = package.Workbook.Worksheets.Add("Worksheet");
@@ -34,7 +34,7 @@ namespace TelegramInvitesGenerator.Models.Documents
             return await package.GetAsByteArrayAsync();
         }
         
-        public static async Task<byte[]> GenerateFromObjectsAsync<T>(IEnumerable<T> objects)
+        public async Task<byte[]> GenerateFromObjectsAsync<T>(IEnumerable<T> objects)
         {
             var package = new ExcelPackage();
             var worksheet = package.Workbook.Worksheets.Add("Worksheet");

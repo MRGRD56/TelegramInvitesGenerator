@@ -2,11 +2,11 @@
 
 namespace TelegramInvitesGenerator.Models.Commands.Questions
 {
-    public class ConditionQuestion : IQuestion
+    public class ConditionRequest : IRequest
     {
         public Predicate<string> Predicate { get; }
 
-        public ConditionQuestion(Predicate<string> predicate)
+        public ConditionRequest(Predicate<string> predicate)
         {
             Predicate = predicate;
         }

@@ -7,11 +7,8 @@ namespace TelegramInvitesGenerator.Models.Commands
 {
     public interface IBotCommand
     {
-        IQuestion Question { get; }
+        IRequest Request { get; }
 
-        Task<IAnswer> GetAnswerAsync(BotMessage message);
-
-        public static readonly IAnswer UnknownCommandAnswer = 
-            new TextAnswer("Неизвестная команда. Для получения помощи отправьте /help");
+        Task<IResponse> GetResponseAsync(BotMessage message);
     }
 }

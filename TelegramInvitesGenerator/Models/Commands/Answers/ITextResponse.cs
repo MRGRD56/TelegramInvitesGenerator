@@ -1,6 +1,6 @@
 ﻿namespace TelegramInvitesGenerator.Models.Commands.Answers
 {
-    public interface ITextAnswer : IAnswer
+    public interface ITextResponse : IResponse
     {
         string Text { get; }
     }

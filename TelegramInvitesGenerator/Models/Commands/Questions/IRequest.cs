@@ -1,6 +1,6 @@
 ﻿namespace TelegramInvitesGenerator.Models.Commands.Questions
 {
-    public interface IQuestion
+    public interface IRequest
     {
         bool IsMatch(string userQuestion);
     }

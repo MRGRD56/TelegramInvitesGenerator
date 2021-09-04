@@ -17,37 +17,40 @@ namespace TelegramInvitesGenerator.Controllers
     {
         private readonly ITelegramBotClient _botClient;
         private readonly IBotCommandsRepository _botCommandsRepository;
+        private readonly IConfiguration _configuration;
 
         public BotController(
             ITelegramBotClient botClient,
-            IBotCommandsRepository botCommandsRepository)
+            IBotCommandsRepository botCommandsRepository,
+            IConfiguration configuration)
         {
             _botClient = botClient;
             _botCommandsRepository = botCommandsRepository;
+            _configuration = configuration;
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Update update)
         {
             var message = update?.Message ?? update?.ChannelPost;
-            var botMessage = BotMessage.Parse(message);
+            var botMessage = BotMessage.Parse(message, _configuration);
             if (!botMessage.IsForBot) return Ok();
 
             if (message is not { Type: MessageType.Text }) return Ok();
 
             var command = _botCommandsRepository.GetCommand(botMessage.Text);
             
-            IAnswer answer;
+            IResponse response;
             if (command != null)
             {
-                answer = await command.GetAnswerAsync(botMessage);
+                response = await command.GetResponseAsync(botMessage);
             }
             else
             {
-                answer = IBotCommand.UnknownCommandAnswer;
+                response = IResponse.UnknownCommandResponse;
             }
 
-            await answer.SendAsync(_botClient, message.Chat.Id);
+            await response.SendAsync(_botClient, message.Chat.Id);
             return Ok();
         }
     }

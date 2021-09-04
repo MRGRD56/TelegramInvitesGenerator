@@ -2,11 +2,11 @@
 
 namespace TelegramInvitesGenerator.Models.Commands.Questions
 {
-    public class RegexQuestion : IQuestion
+    public class RegexRequest : IRequest
     {
         public Regex QuestionRegex { get; }
 
-        public RegexQuestion(Regex questionRegex)
+        public RegexRequest(Regex questionRegex)
         {
             QuestionRegex = questionRegex;
         }
