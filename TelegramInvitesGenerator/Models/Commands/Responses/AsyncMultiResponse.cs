@@ -4,20 +4,20 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace TelegramInvitesGenerator.Models.Commands.Answers
+namespace TelegramInvitesGenerator.Models.Commands.Responses
 {
     public class AsyncMultiResponse : IResponse
     {
-        private readonly IAsyncEnumerable<IResponse> _answers;
+        private readonly IAsyncEnumerable<IResponse> _responses;
 
-        public AsyncMultiResponse(IAsyncEnumerable<IResponse> answers)
+        public AsyncMultiResponse(IAsyncEnumerable<IResponse> responses)
         {
-            _answers = answers;
+            _responses = responses;
         }
         
         public async Task SendAsync(ITelegramBotClient botClient, ChatId chatId, CancellationToken cancellationToken = default)
         {
-            await foreach (var answer in _answers.WithCancellation(cancellationToken))
+            await foreach (var answer in _responses.WithCancellation(cancellationToken))
             {
                 await answer.SendAsync(botClient, chatId, cancellationToken);
             }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace TelegramInvitesGenerator.Models.Commands.Answers
+namespace TelegramInvitesGenerator.Models.Commands.Responses
 {
     public class TextResponse : ITextResponse
     {

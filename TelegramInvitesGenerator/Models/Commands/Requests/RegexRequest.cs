@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace TelegramInvitesGenerator.Models.Commands.Questions
+namespace TelegramInvitesGenerator.Models.Commands.Requests
 {
     public class RegexRequest : IRequest
     {

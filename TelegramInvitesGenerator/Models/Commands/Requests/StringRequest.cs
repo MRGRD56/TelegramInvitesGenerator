@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace TelegramInvitesGenerator.Models.Commands.Questions
+namespace TelegramInvitesGenerator.Models.Commands.Requests
 {
     public class StringRequest : IRequest
     {

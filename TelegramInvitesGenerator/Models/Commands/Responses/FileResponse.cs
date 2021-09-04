@@ -6,7 +6,7 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InputFiles;
 
-namespace TelegramInvitesGenerator.Models.Commands.Answers
+namespace TelegramInvitesGenerator.Models.Commands.Responses
 {
     public class FileResponse : ITextResponse
     {

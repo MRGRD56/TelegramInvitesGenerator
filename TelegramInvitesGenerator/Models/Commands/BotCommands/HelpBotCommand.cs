@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using TelegramInvitesGenerator.Models.Commands.Answers;
-using TelegramInvitesGenerator.Models.Commands.Questions;
+using TelegramInvitesGenerator.Models.Commands.Responses;
+using TelegramInvitesGenerator.Models.Commands.Requests;
 
 namespace TelegramInvitesGenerator.Models.Commands.BotCommands
 {

@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Telegram.Bot.Types.Enums;
-using TelegramInvitesGenerator.Models.Commands.Answers;
-using TelegramInvitesGenerator.Models.Commands.Questions;
+using TelegramInvitesGenerator.Models.Commands.Responses;
+using TelegramInvitesGenerator.Models.Commands.Requests;
 using TelegramInvitesGenerator.Services.Abstractions;
 
 namespace TelegramInvitesGenerator.Models.Commands.BotCommands
