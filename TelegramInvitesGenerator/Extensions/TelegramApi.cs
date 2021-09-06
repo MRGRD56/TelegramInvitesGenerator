@@ -26,7 +26,11 @@ namespace TelegramInvitesGenerator.Extensions
                     var delaySeconds = exception.Parameters.RetryAfter;
                     Console.WriteLine(exception.Message);
                     await Task.Delay(TimeSpan.FromSeconds(delaySeconds));
-                    await ExecuteAsync(method);
+                    await ExecuteAsync(method, onException);
+                }
+                else
+                {
+                    throw;
                 }
             }
         }
@@ -53,7 +57,11 @@ namespace TelegramInvitesGenerator.Extensions
                     var delaySeconds = exception.Parameters.RetryAfter;
                     Console.WriteLine(exception.Message);
                     await Task.Delay(TimeSpan.FromSeconds(delaySeconds));
-                    await ExecuteAsync(method);
+                    await ExecuteAsync(method, onException);
+                }
+                else
+                {
+                    throw;
                 }
             }
 
