@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using TelegramInvitesGenerator.Extensions;
+using TelegramInvitesGenerator.Models.Commands.Responses.Results;
 
 namespace TelegramInvitesGenerator.Models.Commands.Responses
 {
@@ -14,10 +15,13 @@ namespace TelegramInvitesGenerator.Models.Commands.Responses
         {
             Text = text;
         }
-        
-        public Task SendAsync(ITelegramBotClient botClient, ChatId chatId, CancellationToken cancellationToken = default)
+
+        public async Task<ResponseResult> SendAsync(ITelegramBotClient botClient, ChatId chatId,
+            CancellationToken cancellationToken = default)
         {
-            return TelegramApi.ExecuteAsync(botClient.SendTextMessageAsync(chatId, Text, cancellationToken: cancellationToken));
+            var message = await TelegramApi.ExecuteAsync(botClient.SendTextMessageAsync(chatId, Text,
+                cancellationToken: cancellationToken));
+            return new ResponseResult(message);
         }
     }
 }

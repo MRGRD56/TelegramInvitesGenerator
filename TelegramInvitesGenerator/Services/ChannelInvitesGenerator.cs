@@ -39,8 +39,8 @@ namespace TelegramInvitesGenerator.Services
 
                 if (inviteLink == null) continue;
                 count++;
-                
-                if (alert != null && count % 5 == 0 && count != totalCount)
+
+                if (alert != null && (count % 5 == 0 || count == totalCount))
                 {
                     alert(GetProgressString());
                 }

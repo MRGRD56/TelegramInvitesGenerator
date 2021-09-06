@@ -1,8 +1,9 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using TelegramInvitesGenerator.Extensions;
+using TelegramInvitesGenerator.Models.Commands.Responses.Results;
 
 namespace TelegramInvitesGenerator.Models.Commands.Responses
 {
@@ -15,12 +16,16 @@ namespace TelegramInvitesGenerator.Models.Commands.Responses
             _responses = responses;
         }
         
-        public async Task SendAsync(ITelegramBotClient botClient, ChatId chatId, CancellationToken cancellationToken = default)
+        public async Task<ResponseResult> SendAsync(ITelegramBotClient botClient, ChatId chatId, CancellationToken cancellationToken = default)
         {
+            var messages = new List<Message>();
             foreach (var answer in _responses)
             {
-                await answer.SendAsync(botClient, chatId, cancellationToken);
+                var result = await answer.SendAsync(botClient, chatId, cancellationToken);
+                messages.AddRange(result.Messages);
             }
+
+            return new ResponseResult(messages);
         }
     }
 }

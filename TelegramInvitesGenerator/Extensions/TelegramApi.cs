@@ -24,6 +24,7 @@ namespace TelegramInvitesGenerator.Extensions
                 if (exception.ErrorCode == 429)
                 {
                     var delaySeconds = exception.Parameters.RetryAfter;
+                    Console.WriteLine(exception.Message);
                     await Task.Delay(TimeSpan.FromSeconds(delaySeconds));
                     await ExecuteAsync(method);
                 }
@@ -50,6 +51,7 @@ namespace TelegramInvitesGenerator.Extensions
                 if (exception.ErrorCode == 429)
                 {
                     var delaySeconds = exception.Parameters.RetryAfter;
+                    Console.WriteLine(exception.Message);
                     await Task.Delay(TimeSpan.FromSeconds(delaySeconds));
                     await ExecuteAsync(method);
                 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Telegram.Bot.Types.Enums;
 using TelegramInvitesGenerator.Models.Commands.Responses;
 using TelegramInvitesGenerator.Models.Commands.Requests;
+using TelegramInvitesGenerator.Models.Commands.Responses.Enums;
 using TelegramInvitesGenerator.Services.Abstractions;
 
 namespace TelegramInvitesGenerator.Models.Commands.BotCommands
@@ -28,17 +29,20 @@ namespace TelegramInvitesGenerator.Models.Commands.BotCommands
         private IObservable<IResponse> GetInvitesAnswers(BotMessage message, List<string> persons) =>
             Observable.Create<IResponse>(async subscriber =>
             {
-                subscriber.OnNext(new TextResponse($"Генерация пригласительных ссылок (количество: {persons.Count})"));
-
+                var infoMessage = $"Генерация пригласительных ссылок (количество: {persons.Count})";
                 Action<string> alert = alertMessage =>
                 {
+                    alertMessage = $"{infoMessage}\n{alertMessage}";
                     subscriber.OnNext(new TextResponse(alertMessage));
                 };
-                
+                    
+                subscriber.OnNext(new TextResponse($"{infoMessage}\nПрогресс: 0%"));
+                    
                 var inviteLinks = await _channelInvitesGenerator
                     .GenerateAsync(message.Message.Chat.Id, persons, alert)
                     .ToListAsync();
                 var document = await _documentGenerator.GenerateFromObjectsAsync(inviteLinks);
+                
                 subscriber.OnNext(new FileResponse(document, "invites.xlsx", $"Сгенерировано ссылок: {inviteLinks.Count}"));
             });
 
@@ -70,7 +74,7 @@ namespace TelegramInvitesGenerator.Models.Commands.BotCommands
                                       "/help для дополнительной информации.");
             }
 
-            return new AsyncMultiResponse(GetInvitesAnswers(message, persons));
+            return new AsyncMultiResponse(GetInvitesAnswers(message, persons), MultiResponseType.Single);
         }
     }
 }
